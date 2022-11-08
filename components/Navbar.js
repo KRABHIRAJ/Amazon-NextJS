@@ -1,16 +1,24 @@
 import Image from 'next/image';
-import React from 'react';
-import {Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon} from "@heroicons/react/24/outline"
+import React, { useState } from 'react';
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/outline"
+import { useSession, signIn, signOut } from "next-auth/react"
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { selectBasketItem } from '../features/userSlice';
 function Navbar() {
-    return (
-      <div>
+    const { data: session } = useSession();
+    const router = useRouter();
+    const items = useSelector(selectBasketItem);
+   return (
+      <div className='sticky top-0 z-[100]'>
             <div className='bg-amazon-color p-3 flex items-center justify-between' >
-          <div className='mt-2 flex items-center ' >
+            <div className='mt-2 flex items-center ' >
               <Image 
+
                 //   loader={src => "https://links.papareact.com/f90"}
                   src="https://links.papareact.com/f90"
                   className='cursor-pointer'
-                        
+                  onClick={() => router.push("/")}   
                   width={100}
                   height={40}
                   alt="Amazon Logo"
@@ -28,8 +36,8 @@ function Navbar() {
           </div>
           <div className='text-white flex space-x-4 mx-4 items-center'>
               
-              <div className='cursor-pointer hover:underline'>
-                  <p className='text-xs'>Hello, Abhiraj </p>
+              <div onClick={signIn} className='cursor-pointer hover:underline'>
+                        <p className='text-xs'>{session? `Hello ${session.user.name}`: "Hello, Sign In" }</p>
                   <p  className='text-sm font-semibold'>Account & Lists</p>  
               </div>
 
@@ -38,9 +46,9 @@ function Navbar() {
                 <p className='text-sm font-semibold'>& Orders</p>  
               </div>
 
-              <div className='flex relative space-x-1 cursor-pointer hover:underline items-center '>
+              <div onClick={() => router.push("/checkout")} className='flex relative space-x-1 cursor-pointer hover:underline items-center '>
                   <ShoppingCartIcon className='h-9' />
-                  <div className='absolute h-4 w-4  top-0 right-0 md:right-8 text-xs rounded-full bg-yellow-500 flex items-center justify-center'>{ 0 }</div>
+                  <div className='absolute h-4 w-4  top-0 right-0 md:right-8 text-xs rounded-full bg-yellow-500 flex items-center justify-center'>{ items.length }</div>
                   <p className='text-sm hidden md:inline-block font-semibold '>Cart</p>
               </div>
 

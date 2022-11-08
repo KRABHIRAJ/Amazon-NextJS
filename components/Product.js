@@ -1,11 +1,24 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import Image from "next/image"
-import { useState } from "react";
 import Currency from 'react-currency-formatter';
+import { useDispatch } from "react-redux";
+import { ADD_TO_BASKET} from "../features/userSlice";
 
 function Product({ id, title, price, description, category, image, rating }) {
-    // const [hasPrime] = useState(Math.random() >= 0.5);
-   
+  const dispatch = useDispatch();
+  const addToBasket = (e) => {
+    e.preventDefault();
+
+    dispatch(ADD_TO_BASKET({
+      id,
+      title,
+      price,
+      description,
+      category,
+      image,
+      rating
+    }))
+  }
   return (
       <div className="relative bg-white m-5 px-10 py-6 rounded-md flex flex-col">
           <p className="absolute top-3 right-7 text-xs text-gray-400 capitalize">{category}</p>
@@ -24,7 +37,7 @@ function Product({ id, title, price, description, category, image, rating }) {
           />
           </div>
           
-{/* 
+      {/* 
           {hasPrime &&
               <div className="flex items-center space-x-3">
                   <img className="h-10  " src="https://links.papareact.com/fdw" alt="prime" />
@@ -32,7 +45,7 @@ function Product({ id, title, price, description, category, image, rating }) {
               </div>
           } */}
 
-          <button className=" py-1 my-2 rounded-md bg-gradient-to-b from-yellow-200 to-yellow-400 active:bg-yellow-600 ">Add to Basket</button>
+          <button onClick={addToBasket} className=" py-1 my-2 rounded-md bg-gradient-to-b from-yellow-200 to-yellow-400 active:bg-yellow-600 ">Add to Basket</button>
           
     </div>
   )

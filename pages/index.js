@@ -5,9 +5,11 @@ import Navbar from '../components/Navbar'
 import ProductComp from '../components/ProductComp'
 import styles from '../styles/Home.module.css'
 
+
 export default function Home({products}) {
   return (
     <div className="bg-[#EAEDED]">
+      
         <Navbar />   
         <div className='max-w-screen-xl mx-auto '>
           <Banner />   
